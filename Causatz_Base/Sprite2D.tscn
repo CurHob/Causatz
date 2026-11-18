@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://ce2c774fg58fr"]
+
+[ext_resource type="Script" uid="uid://dahpeiyebxl76" path="res://DrawPhotons.gd" id="1_b7hkc"]
+[ext_resource type="Texture2D" uid="uid://bgxcb0hbujqgs" path="res://LightPOV.exr" id="2_b7hkc"]
+[ext_resource type="Script" uid="uid://bgi4aewupi3ji" path="res://Causatz_Base/moveCursor.gd" id="3_b7hkc"]
+[ext_resource type="Script" uid="uid://bxbpk58cbuhwf" path="res://Causatz_Base/MouseNavigate.gd" id="4_sx1it"]
+
+[node name="Node2D" type="Node2D" unique_id=1880836836]
+
+[node name="DestImage" type="Sprite2D" parent="." unique_id=643890091]
+script = ExtResource("1_b7hkc")
+sourceImage = ExtResource("2_b7hkc")
+targetSize = Vector2i(1024, 1024)
+imageName = "CausticsBlender"
+causticsExposure = 1000.0
+clipFade = 0.83
+quality = Vector2i(1, 1)
+blurMult = Vector2(1.38, 3.2)
+drawSpeed = 100
+passes = 1
+pass1Number = 360
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1913517849]
+script = ExtResource("4_sx1it")
+
+[node name="Cursor1" type="Line2D" parent="." unique_id=1952973561]
+process_priority = 2
+points = PackedVector2Array(0, 12, 4, 9, -4, 9, 0, 12, -1, 8, -1, -8, 0, -12, 4, -9, -4, -9, 0, -12, 1, -8, 1, 8)
+width = 2.0
+joint_mode = 2
+round_precision = 3
+script = ExtResource("3_b7hkc")
+
+[node name="Cursor2" type="Line2D" parent="." unique_id=1748448875]
+process_priority = 2
+rotation = 1.5707964
+points = PackedVector2Array(0, 12, 4, 9, -4, 9, 0, 12, -1, 8, -1, -8, 0, -12, 4, -9, -4, -9, 0, -12, 1, -8, 1, 8)
+width = 2.0
+joint_mode = 2
+round_precision = 3
+script = ExtResource("3_b7hkc")
