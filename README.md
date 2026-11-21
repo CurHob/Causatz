@@ -110,7 +110,13 @@ Note on DE-ARTIFACTING - Deartifacting uses the offset between the current photo
 
 
 
-PASSES - Set name of the frames to "Pass", that way your animation frames will output as "Pass0000", then "Pass0001", "Pass0002", and so on.
+PASSES - Having a high-resolution photon coordinate map can only go so far, as higher resolution images can crash whilst rendering. Plus, there's no randomization within each pixel as to where on the glass the photons will hit. A "pass" is basically an image, out of several, all of which contribute to the resulting caustics map. The program will run through all the passes, and contribute each as photons to the target image.
+
+Set name of the output frames to "Pass", and change the output folder to the "Passes" folder in Causatz. That way your animation frames will output as "Pass0000", then "Pass0001", "Pass0002", and so on. You also now don't need to render high-res images, because you can render an animation as long as you want to get hundreds of passes. This will also help you to get more randomization of sampled positions on the sub-pixel level. 
+
+Speaking of which, the camera needs to face in a slightly different direction every frame, as each pixel in the image has to be in a different position on the glass. To do this, go to the Animation Tab, then change the animation view (where it says "Dope Sheet") to be the Graph Editor. Select the camera and add a key frame under "Delta Rotation" in the Object panel. Now in the Graph editor, select the "Modifiers" Tab on the right side. Add a Noise modifier to both the X and Y component of the delta rotation, and change the Phase value on one of them. The rotation should not be in sync on both axes. Set the Strength to something low enough that the camera is jittering around slightly, but the glass is not going out of frame. Render an animation, and you get variations with slightly different pixel positions on screen. 
+
+In Godot, select the DestImage node and go to the "Multipass" section of the script variables. Set "Passes" to the number of passes you rendered in your animation.
 
 
 
@@ -120,15 +126,11 @@ PASSES - Set name of the frames to "Pass", that way your animation frames will o
 
 
 
-
-
-
-
 #### LIMITATIONS:
 
 
 
-If the glass moves, Since this workflow is entirely manual, trying to use it every frame in an animation would defeat its purpose. Beyond that, you cannot tint individual objects or have an object's detail casting shadows in the caustics, and since this program uses a zoomed-in frame of whatever size the object is to make use of image space, it's anyone's guess as to how bright the caustics should be. In cases where you need animations of the light or glass moving, or you want accurate lighting, use a rendering engine which has a photon mapper or caustics solver, like Appleseed or Corona.
+If the glass moves, the caustics no longer match the objects and will therefore have to be redone. Since this workflow is entirely manual, trying to use it every frame in an animation would defeat its purpose. Beyond that, you cannot tint individual objects or have an object's detail casting shadows in the caustics, and since this program uses a zoomed-in frame of whatever size the object is to make use of image space, it's anyone's guess as to how bright the caustics should be. In cases where you need animations of the light or glass moving, or you want accurate lighting, use a rendering engine which has a photon mapper or caustics solver, like Appleseed or Corona.
 
 
 
